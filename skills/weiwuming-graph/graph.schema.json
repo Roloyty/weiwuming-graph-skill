@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://weiwuming.cn/graph-kit/graph.schema.json",
+  "title": "谓无名知识图谱包 weiwuming-graph/1",
+  "description": "一张知识图谱 = 元信息 graph + 节点 nodes + 关系 relations + 时间轴事件 events。纵轴是时间：节点头像位于起始年，竖线延伸到结束年。完整规则以 POST https://weiwuming.cn/api/graph-submissions/validate 为准。",
+  "type": "object",
+  "required": ["graph", "nodes"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "format": { "const": "weiwuming-graph/1" },
+    "graph": { "$ref": "#/$defs/graph" },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 600,
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "relations": {
+      "type": "array",
+      "maxItems": 3000,
+      "items": { "$ref": "#/$defs/relation" }
+    },
+    "events": {
+      "type": "array",
+      "maxItems": 1000,
+      "items": { "$ref": "#/$defs/event" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "maxLength": 64,
+      "description": "稳定标识：小写字母、数字和连字符，人物建议用拼音/罗马字，如 lu-xun、naito-konan"
+    },
+    "hexColor": {
+      "type": "string",
+      "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+    },
+    "year": {
+      "type": "integer",
+      "minimum": -3000,
+      "description": "公元纪年，公元前用负数；不能晚于当前年份"
+    },
+    "graph": {
+      "type": "object",
+      "required": ["slug", "title", "category", "lanes"],
+      "properties": {
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "minLength": 3,
+          "maxLength": 60,
+          "not": { "enum": ["submit", "create", "new", "kit", "preview", "catalog", "mine", "edit", "admin", "connect"] },
+          "description": "图谱地址 https://weiwuming.cn/graph/<slug>，全站唯一"
+        },
+        "title": { "type": "string", "minLength": 1, "maxLength": 60, "description": "图谱名，如「宋明理学师承图谱」" },
+        "subtitle": { "type": "string", "maxLength": 80, "description": "一句话副标题" },
+        "category": { "type": "string", "minLength": 1, "maxLength": 20, "description": "目录分类，如 历史 / 文学 / 思想与哲学 / 艺术" },
+        "description": { "type": "string", "maxLength": 4000, "description": "图谱介绍：主线、范围、资料依据" },
+        "order": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "lanes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "description": "泳道（横向分栏），按国家、学派或阵营划分；每个节点必须归入其中一条",
+          "items": {
+            "type": "object",
+            "required": ["key", "label", "color"],
+            "properties": {
+              "key": { "type": "string", "pattern": "^[a-z0-9_-]{1,24}$", "not": { "const": "both" } },
+              "label": { "type": "string", "minLength": 1, "maxLength": 20 },
+              "color": { "$ref": "#/$defs/hexColor" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "theme": {
+          "type": ["object", "null"],
+          "description": "可选的配色覆盖；留空即默认星空主题",
+          "properties": {
+            "background": { "$ref": "#/$defs/hexColor" },
+            "panel": { "$ref": "#/$defs/hexColor" },
+            "accent": { "$ref": "#/$defs/hexColor" },
+            "starColor": { "type": "string", "pattern": "^\\d{1,3},\\s*\\d{1,3},\\s*\\d{1,3}$", "description": "星点颜色 \"r, g, b\"" }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "required": ["nodeId", "name", "birth", "lane"],
+      "properties": {
+        "nodeId": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "altNames": { "type": "array", "maxItems": 10, "items": { "type": "string", "minLength": 1, "maxLength": 40 }, "description": "字号、别名、原文写法，用于搜索" },
+        "birth": { "$ref": "#/$defs/year", "description": "生年；事件/作品类节点填起始年" },
+        "death": { "$ref": "#/$defs/year", "description": "卒年；省略表示在世或延续至今（画成虚线）" },
+        "lane": { "type": "string", "maxLength": 24, "description": "所属泳道 key" },
+        "roles": { "type": "array", "maxItems": 8, "items": { "type": "string", "minLength": 1, "maxLength": 20 }, "description": "身份标签，如 [\"思想家\",\"教育家\"]" },
+        "school": { "type": "string", "maxLength": 40, "description": "学派 / 阵营" },
+        "bio": { "type": "string", "maxLength": 1500, "description": "生平简介（用自己的话写）" },
+        "thought": { "type": "string", "maxLength": 1500, "description": "主要思想 / 核心贡献" },
+        "works": { "type": "array", "maxItems": 30, "items": { "type": "string", "minLength": 1, "maxLength": 120 }, "description": "代表作" },
+        "importance": { "type": "integer", "enum": [1, 2, 3], "default": 2, "description": "3=核心人物（头像最大、任何缩放都标名）2=重要 1=次要" },
+        "avatarUrl": { "type": "string", "pattern": "^(https://|/api/graph-avatars/[0-9a-f]{64}[.]webp$|/graph-avatars/)", "maxLength": 500, "description": "头像：https 图片地址，或本站托管的头像地址（wwm-graph push 会把本地图片上传并替换成这种地址）；须有使用授权；留空时若站内已有同一人物的头像会自动复用，否则显示文字头像" }
+      },
+      "additionalProperties": false
+    },
+    "relation": {
+      "type": "object",
+      "required": ["source", "target", "type"],
+      "properties": {
+        "source": { "$ref": "#/$defs/id" },
+        "target": { "$ref": "#/$defs/id" },
+        "type": {
+          "enum": ["teacher", "influence", "friend", "rival", "critique", "study", "colleague", "family"],
+          "description": "teacher 师承（source 为师）/ influence 影响（source 影响 target）/ friend 交游 / rival 论战 / critique 批判（source 批判 target）/ study 研究（source 研究 target）/ colleague 同侪 / family 亲缘"
+        },
+        "note": { "type": "string", "maxLength": 80, "description": "一句话说明，如「万木草堂受业」" }
+      },
+      "additionalProperties": false
+    },
+    "event": {
+      "type": "object",
+      "required": ["eventId", "year", "label"],
+      "properties": {
+        "eventId": { "$ref": "#/$defs/id" },
+        "year": { "$ref": "#/$defs/year" },
+        "month": { "type": "integer", "minimum": 1, "maximum": 12 },
+        "day": { "type": "integer", "minimum": 1, "maximum": 31 },
+        "label": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "tier": { "type": "integer", "enum": [1, 2, 3], "default": 2, "description": "1=时代节点（始终显示）2=重要转折 3=具体事件（放大后出现）" },
+        "side": { "type": "string", "maxLength": 24, "default": "both", "description": "归属泳道 key；both 表示共同事件" }
+      },
+      "dependentRequired": { "day": ["month"] },
+      "additionalProperties": false
+    }
+  }
+}

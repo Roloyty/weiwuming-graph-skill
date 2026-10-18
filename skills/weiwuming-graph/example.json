@@ -1,0 +1,109 @@
+{
+  "$schema": "https://weiwuming.cn/graph-kit/graph.schema.json",
+  "format": "weiwuming-graph/1",
+  "graph": {
+    "slug": "song-ming-lixue-example",
+    "title": "宋明理学师承（示例）",
+    "subtitle": "从濂溪到阳明：理学与心学的分流",
+    "category": "思想与哲学",
+    "description": "图谱包格式的示例：以北宋五子到朱熹、陆九渊、王守仁为线索，展示师承、亲缘、影响、论战与批判几类关系。泳道按理学、心学两脉划分。仅作格式演示，人物与事件均为常识范围的简化。",
+    "lanes": [
+      { "key": "lixue", "label": "理学", "color": "#f0b45c" },
+      { "key": "xinxue", "label": "心学", "color": "#5cc8f0" }
+    ],
+    "theme": null
+  },
+  "nodes": [
+    {
+      "nodeId": "zhou-dunyi", "name": "周敦颐", "altNames": ["周濂溪", "周茂叔"],
+      "birth": 1017, "death": 1073, "lane": "lixue", "roles": ["理学家"], "school": "濂学",
+      "bio": "北宋道州人，世称濂溪先生。曾任南安军司理参军，程珦令二子程颢、程颐从其受学。",
+      "thought": "以《太极图说》阐发无极而太极、阴阳五行化生万物之理，被后世尊为理学开山。",
+      "works": ["《太极图说》", "《通书》"], "importance": 3
+    },
+    {
+      "nodeId": "zhang-zai", "name": "张载", "altNames": ["张横渠", "张子厚"],
+      "birth": 1020, "death": 1077, "lane": "lixue", "roles": ["理学家"], "school": "关学",
+      "bio": "北宋凤翔郿县横渠镇人，世称横渠先生，关学创始人，为二程之表叔。",
+      "thought": "主张气本论，太虚即气；《西铭》倡民胞物与。",
+      "works": ["《正蒙》", "《西铭》"], "importance": 2
+    },
+    {
+      "nodeId": "cheng-hao", "name": "程颢", "altNames": ["程明道", "程伯淳"],
+      "birth": 1032, "death": 1085, "lane": "lixue", "roles": ["理学家"], "school": "洛学",
+      "bio": "北宋洛阳人，世称明道先生，与弟程颐并称二程。",
+      "thought": "以仁者与天地万物为一体，重识仁与体认，后世心学多溯源于此。",
+      "works": ["《识仁篇》", "《定性书》"], "importance": 2
+    },
+    {
+      "nodeId": "cheng-yi", "name": "程颐", "altNames": ["程伊川", "程正叔"],
+      "birth": 1033, "death": 1107, "lane": "lixue", "roles": ["理学家"], "school": "洛学",
+      "bio": "北宋洛阳人，世称伊川先生，曾任崇政殿说书。",
+      "thought": "提出性即理，倡格物穷理、涵养须用敬，进学则在致知，为朱熹所承。",
+      "works": ["《周易程氏传》"], "importance": 3
+    },
+    {
+      "nodeId": "yang-shi", "name": "杨时", "altNames": ["杨龟山"],
+      "birth": 1053, "death": 1135, "lane": "lixue", "roles": ["理学家"],
+      "bio": "北宋南剑州将乐人，先后师事程颢、程颐，有程门立雪之事，将洛学传入东南。",
+      "thought": "传二程之学于闽中，经罗从彦、李侗而至朱熹，史称道南一脉。",
+      "works": [], "importance": 1
+    },
+    {
+      "nodeId": "luo-congyan", "name": "罗从彦", "altNames": ["罗豫章"],
+      "birth": 1072, "death": 1135, "lane": "lixue", "roles": ["理学家"],
+      "bio": "南剑州人，从杨时受学，为道南学派承上启下的人物。",
+      "thought": "主静坐体认喜怒哀乐未发之中。", "works": [], "importance": 1
+    },
+    {
+      "nodeId": "li-tong", "name": "李侗", "altNames": ["李延平"],
+      "birth": 1093, "death": 1163, "lane": "lixue", "roles": ["理学家"],
+      "bio": "南剑州人，世称延平先生，师事罗从彦，终身不仕。朱熹青年时往从问学。",
+      "thought": "教人默坐澄心，体认天理。", "works": [], "importance": 1
+    },
+    {
+      "nodeId": "zhu-xi", "name": "朱熹", "altNames": ["朱晦庵", "朱子", "朱元晦"],
+      "birth": 1130, "death": 1200, "lane": "lixue", "roles": ["理学家", "教育家"], "school": "闽学",
+      "bio": "南宋徽州婺源籍，生于福建尤溪。师事李侗，集北宋诸儒之说，讲学于白鹿洞书院等处。",
+      "thought": "以理气论统摄心性论，主格物致知；《四书章句集注》后为元明清科举定本。",
+      "works": ["《四书章句集注》", "《近思录》（与吕祖谦合编）"], "importance": 3
+    },
+    {
+      "nodeId": "lu-jiuyuan", "name": "陆九渊", "altNames": ["陆象山", "陆子静"],
+      "birth": 1139, "death": 1193, "lane": "xinxue", "roles": ["理学家"], "school": "象山学",
+      "bio": "南宋抚州金溪人，讲学于象山，世称象山先生。",
+      "thought": "倡心即理、发明本心，主张先立乎其大者，与朱熹格物穷理之说相抗。",
+      "works": ["《象山先生全集》"], "importance": 3
+    },
+    {
+      "nodeId": "wang-shouren", "name": "王守仁", "altNames": ["王阳明", "王伯安"],
+      "birth": 1472, "death": 1529, "lane": "xinxue", "roles": ["思想家", "军事家"], "school": "阳明学",
+      "bio": "明代浙江余姚人，世称阳明先生。谪贵州龙场驿丞期间悟道，后平定宁王之乱。",
+      "thought": "主张心即理、知行合一、致良知，与陆九渊合称陆王心学。",
+      "works": ["《传习录》", "《大学问》"], "importance": 3
+    }
+  ],
+  "relations": [
+    { "source": "zhou-dunyi", "target": "cheng-hao", "type": "teacher", "note": "少年受学于濂溪" },
+    { "source": "zhou-dunyi", "target": "cheng-yi", "type": "teacher", "note": "少年受学于濂溪" },
+    { "source": "zhang-zai", "target": "cheng-hao", "type": "family", "note": "张载为二程表叔" },
+    { "source": "cheng-hao", "target": "cheng-yi", "type": "family", "note": "兄弟" },
+    { "source": "cheng-yi", "target": "yang-shi", "type": "teacher", "note": "程门立雪" },
+    { "source": "cheng-hao", "target": "yang-shi", "type": "teacher" },
+    { "source": "yang-shi", "target": "luo-congyan", "type": "teacher", "note": "道南一脉" },
+    { "source": "luo-congyan", "target": "li-tong", "type": "teacher" },
+    { "source": "li-tong", "target": "zhu-xi", "type": "teacher", "note": "延平问学" },
+    { "source": "cheng-yi", "target": "zhu-xi", "type": "influence", "note": "性即理、格物穷理" },
+    { "source": "cheng-hao", "target": "lu-jiuyuan", "type": "influence", "note": "识仁之学" },
+    { "source": "zhu-xi", "target": "lu-jiuyuan", "type": "rival", "note": "鹅湖之会" },
+    { "source": "lu-jiuyuan", "target": "wang-shouren", "type": "influence", "note": "陆王心学" },
+    { "source": "wang-shouren", "target": "zhu-xi", "type": "critique", "note": "格竹之疑与《朱子晚年定论》" }
+  ],
+  "events": [
+    { "eventId": "cheng-men-li-xue", "year": 1093, "label": "程门立雪", "tier": 3, "side": "lixue" },
+    { "eventId": "ehu-zhi-hui", "year": 1175, "label": "鹅湖之会：朱陆论辩", "tier": 1, "side": "both" },
+    { "eventId": "qingyuan-dangjin", "year": 1196, "label": "庆元党禁，道学被斥为伪学", "tier": 2, "side": "lixue" },
+    { "eventId": "huangqing-keju", "year": 1313, "label": "元复科举，以《四书章句集注》取士", "tier": 1, "side": "lixue" },
+    { "eventId": "longchang-wudao", "year": 1508, "label": "龙场悟道", "tier": 1, "side": "xinxue" }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "weiwuming",
+  "description": "谓无名（weiwuming.cn）的 Claude Code 插件",
+  "owner": {
+    "name": "谓无名"
+  },
+  "plugins": [
+    {
+      "name": "weiwuming-graph",
+      "source": "./",
+      "description": "编绘谓无名知识图谱：统一规范、在线校验、推送预览与投稿"
+    }
+  ]
+}

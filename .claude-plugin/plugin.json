@@ -1,0 +1,19 @@
+{
+  "name": "weiwuming-graph",
+  "displayName": "谓无名知识图谱",
+  "version": "1.0.0",
+  "description": "编绘谓无名（weiwuming.cn）知识图谱：按统一规范写图谱包、在线校验、授权后推送到网站预览并投稿，支持本地头像上传与同一人物头像复用。",
+  "author": {
+    "name": "谓无名",
+    "url": "https://weiwuming.cn"
+  },
+  "homepage": "https://weiwuming.cn/graph/submit",
+  "repository": "https://github.com/Roloyty/weiwuming-graph-skill",
+  "keywords": [
+    "knowledge-graph",
+    "timeline",
+    "humanities",
+    "weiwuming",
+    "知识图谱"
+  ]
+}

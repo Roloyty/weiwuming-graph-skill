@@ -1,0 +1,50 @@
+{
+  "$schema": "https://weiwuming.cn/graph-kit/graph.schema.json",
+  "format": "weiwuming-graph/1",
+  "graph": {
+    "slug": "my-graph",
+    "title": "图谱名称",
+    "subtitle": "一句话副标题",
+    "category": "历史",
+    "description": "这张图谱的主线、时间与人物范围，以及主要资料依据。",
+    "lanes": [
+      { "key": "a", "label": "泳道一", "color": "#f0b45c" },
+      { "key": "b", "label": "泳道二", "color": "#5cc8f0" }
+    ],
+    "theme": null
+  },
+  "nodes": [
+    {
+      "nodeId": "person-a",
+      "name": "人物甲",
+      "altNames": ["字号或别名"],
+      "birth": 1850,
+      "death": 1920,
+      "lane": "a",
+      "roles": ["身份标签"],
+      "school": "学派",
+      "bio": "生平简介。",
+      "thought": "主要思想或核心贡献。",
+      "works": ["《代表作》"],
+      "importance": 3
+    },
+    {
+      "nodeId": "person-b",
+      "name": "人物乙",
+      "birth": 1880,
+      "death": 1950,
+      "lane": "b",
+      "roles": ["身份标签"],
+      "bio": "生平简介。",
+      "thought": "主要思想或核心贡献。",
+      "works": [],
+      "importance": 2
+    }
+  ],
+  "relations": [
+    { "source": "person-a", "target": "person-b", "type": "teacher", "note": "一句话说明" }
+  ],
+  "events": [
+    { "eventId": "event-1", "year": 1900, "label": "时间轴上的事件", "tier": 1, "side": "both" }
+  ]
+}
