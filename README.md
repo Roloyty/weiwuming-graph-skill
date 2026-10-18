@@ -1,35 +1,53 @@
 # 谓无名知识图谱 Skill
 
-让 AI 帮你编绘一张[谓无名](https://weiwuming.cn/graph)风格的知识图谱：纵轴是时间，人物按生卒年排布，连线是师承、影响、论战等关系，左侧是历史事件时间轴。你只需要告诉 AI 主题和资料，它会按统一格式写出图谱，在线校验。征得你同意后，它还能把图谱推送到网站生成只有你能看到的预览页，由你一键投稿。站方审核通过后，图谱会出现在 [weiwuming.cn/graph](https://weiwuming.cn/graph)，署上你的名字。
+让 AI 帮你编绘一张[谓无名](https://weiwuming.cn/graph)风格的知识图谱，或者用 Word 表格自己整理，然后投稿到谓无名分享。
 
-适用于 Claude Code，也可以给 Codex、Cursor 等其他 AI 工具使用。
+谓无名的知识图谱是一套统一的「星空时间轴」界面：纵轴是时间，人物头像落在生年，竖线延伸到卒年；横向按国家、学派或阵营分栏；连线是师承、影响、论战等关系；左侧是历史事件时间轴。点开人物可以看到生平、主要思想、代表作和全部关系。
+
+![近代中日思想史图谱：选中梁启超，右侧是人物卡片](docs/images/02-graph-person.webp)
+
+你只需要告诉 AI 主题和资料，它会按统一格式写出图谱并在线校验。征得你同意后，它还能把图谱推送到网站，生成只有你能看到的预览页，由你一键投稿。站方审核通过后，图谱会出现在 [weiwuming.cn/graph](https://weiwuming.cn/graph)，署上你的名字。
+
+![图谱目录](docs/images/01-catalog.webp)
 
 ## 安装
 
-### Claude Code（推荐）
+### 一条命令，适用于各种 AI 工具
 
-在 Claude Code 里依次运行：
+在终端运行（需要 Node.js 18 或更高版本）：
+
+```bash
+npx skills add Roloyty/weiwuming-graph-skill -g
+```
+
+运行后会列出本机装好的 AI 工具让你勾选。也可以直接指定：
+
+```bash
+npx skills add Roloyty/weiwuming-graph-skill -g -a claude-code
+npx skills add Roloyty/weiwuming-graph-skill -g -a codex
+npx skills add Roloyty/weiwuming-graph-skill -g -a cursor
+```
+
+支持 Claude Code、Codex、Cursor、Gemini CLI、OpenCode、Trae、GitHub Copilot 等 40 多种工具（`-a` 的取值见 [skills CLI](https://github.com/vercel-labs/skills)）。以后用 `npx skills update` 更新。
+
+### Claude Code 插件
+
+在 Claude Code 里输入：
 
 ```
 /plugin marketplace add Roloyty/weiwuming-graph-skill
 /plugin install weiwuming-graph@weiwuming
 ```
 
-以后在 `/plugin` 面板里就能更新到最新版本。
+以后在 `/plugin` 面板里更新。
 
-### 手动安装为 Skill
+### 手动安装
 
-```bash
-git clone https://github.com/Roloyty/weiwuming-graph-skill.git
-mkdir -p ~/.claude/skills
-cp -r weiwuming-graph-skill/skills/weiwuming-graph ~/.claude/skills/
-```
+把 [`skills/weiwuming-graph`](skills/weiwuming-graph) 整个文件夹复制到 AI 工具读取 Skill 的目录（如 Claude Code 的 `~/.claude/skills/`），或者把其中的 `SKILL.md` 内容发给 AI。
 
-### 其他 AI 工具
+![网站上的安装说明](docs/images/03-install.webp)
 
-下载 [`skills/weiwuming-graph`](skills/weiwuming-graph) 整个文件夹，把 `SKILL.md` 的内容发给 AI，或放进它读取的指令文件里。文件夹里的 `wwm-graph.mjs` 需要 Node.js 18 或更高版本。
-
-## 使用
+## 用 AI 编绘
 
 安装后直接对 AI 说，例如：
 
@@ -46,12 +64,25 @@ AI 会按下面的流程走：
 5. **推送预览**：AI 给你一个预览链接。改完再推送，链接不变，刷新即可看到新版本。
 6. **投稿**：在预览页点「提交审核」，或明确同意后让 AI 提交。
 
-不想连接账号也可以：让 AI 只交出 JSON 文件，你到 [weiwuming.cn/graph/submit](https://weiwuming.cn/graph/submit) 上传、预览、投稿。
+![预览页：宋明理学师承示例，选中朱熹](docs/images/05-preview.webp)
+
+## 用 Word 手工填写
+
+不想用 AI，或者习惯先在 Word 里整理资料，可以用 Word 模板：
+
+1. 下载 [**Word 填写模板**](skills/weiwuming-graph/graph-template.docx)，参考 [填好的示例（宋明理学师承）](skills/weiwuming-graph/graph-example.docx)。
+2. 按五张表填写：**图谱信息**（标题、地址、分类、简介）、**泳道**、**人物**（姓名、生卒年、身份、简介、代表作……）、**关系**（用姓名填起点和终点）、**时间轴事件**。编号、泳道标识和颜色都可以空着。
+3. 打开 [weiwuming.cn/graph/submit](https://weiwuming.cn/graph/submit)，在第二步直接上传这个 Word 文件。网站会自动转换、校验并给出预览；有填错的地方会指出是哪张表的第几行。
+4. 登录后投稿。
+
+也可以把填好的 Word 交给装了这个 Skill 的 AI，让它转换、核对并帮你补全。
+
+![上传 Word 模板后自动转换并校验](docs/images/04-upload-word.webp)
 
 ## 人物头像
 
-- 大多数人物不用管：网站上已有同一人物的头像时会自动复用（按 nodeId，或「姓名/别名＋生年」匹配）。
-- 用自己的图片：放到图谱 JSON 旁边的 `avatars/<nodeId>.jpg`（也可以是 png、webp），推送时会自动上传。服务器统一裁成 256px 正方形，并去掉照片里的位置等元数据；同一张图在全站只存一份。
+- 大多数人物不用管：网站上已有同一人物的头像时会自动复用（按编号，或「姓名/别名＋生年」匹配）。
+- 用自己的图片：放到图谱 JSON 旁边的 `avatars/<编号>.jpg`（也可以是 png、webp），推送时会自动上传；或者在网页上传页的「人物头像」里上传。服务器统一裁成 256px 正方形，并去掉照片里的位置等元数据；同一张图在全站只存一份。
 - 只使用你有权使用的图片。
 
 ## 命令行助手
@@ -60,6 +91,7 @@ AI 会按下面的流程走：
 
 | 命令 | 作用 |
 |---|---|
+| `node wwm-graph.mjs from-word <file.docx>` | 把填好的 Word 模板转成图谱包并校验（`-o` 指定输出文件） |
 | `node wwm-graph.mjs validate <file>` | 校验图谱包（不需要登录） |
 | `node wwm-graph.mjs login` / `login --wait` | 连接谓无名账号 |
 | `node wwm-graph.mjs push <file> [--write]` | 推送为草稿并给出预览链接；`--write` 把上传后的头像地址写回文件 |
@@ -80,4 +112,4 @@ AI 会按下面的流程走：
 
 ## 反馈
 
-问题与建议请提 [Issue](https://github.com/Roloyty/weiwuming-graph-skill/issues)。本仓库的 `skills/weiwuming-graph` 与网站 [weiwuming.cn/graph-kit](https://weiwuming.cn/graph-kit/SKILL.md) 上的工具包保持同步。
+问题与建议请提 [Issue](https://github.com/Roloyty/weiwuming-graph-skill/issues)。本仓库的 `skills/weiwuming-graph` 与谓无名网站上的工具包保持同步。

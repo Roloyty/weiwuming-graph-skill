@@ -12,10 +12,13 @@ description: 编绘并发布谓无名（weiwuming.cn）知识图谱。当用户�
 - 规范 JSON Schema：`graph.schema.json`（https://weiwuming.cn/graph-kit/graph.schema.json）
 - 空白模板：`template.json`（https://weiwuming.cn/graph-kit/template.json）
 - 完整示例（宋明理学师承）：`example.json`（https://weiwuming.cn/graph-kit/example.json）
+- Word 填写模板与填好的示例：`graph-template.docx`、`graph-example.docx`（给想自己手工整理资料的用户）
 
 安装与更新：https://github.com/Roloyty/weiwuming-graph-skill
 
 ## 工作流程
+
+用户给的是填好的 Word 模板时，先按「Word 填写模板」一节转换，再从第 2 步接着做。
 
 1. **确定范围**。先和用户确认：主题与主线、时间跨度、大致人物数（建议 20–150 个，上限 600）、泳道怎么分（1–6 条，例如「中国 / 日本」或「理学 / 心学」）、资料依据。范围不清时先问，不要自行扩写成百科。
 2. **列人物与事件清单**，核对事实后再写 JSON。生卒年以权威工具书为准；只知道大概年份时取通行说法，并在 `bio` 里注明「生卒年一说……」；绝不编造年份、著作或师承。
@@ -133,6 +136,19 @@ curl -sS -X POST https://weiwuming.cn/api/graph-submissions/validate   -H "Conte
 4. **其他命令**：`wwm status` 查看草稿与审核状态和审核意见；`wwm withdraw <ID>` 删除草稿或撤回待审稿；`wwm logout` 撤销本机令牌。
 
 令牌失效（输出要求重新 login）时重新走第 1 步。用户也可以在 https://weiwuming.cn/graph/submit 的「已连接的 AI 工具」里随时撤销授权。
+
+## Word 填写模板
+
+有的用户习惯先在 Word 里整理资料。本 Skill 目录里有 `graph-template.docx`（空白模板）和 `graph-example.docx`（宋明理学示例），可以发给用户填写。模板有五张表：图谱信息、泳道、人物、关系、时间轴事件；关系用姓名互相引用，编号、泳道标识、颜色都可以空着。
+
+用户交回填好的文件后：
+
+1. 运行 `wwm from-word 文件.docx`，在同目录生成 `文件.graph.json` 并立即校验（`-o` 可指定输出路径）。
+2. 输出的「Word 里需要修改的地方」带表名和行号（如 `人物表第 3 行（梁启超）.生年`），逐条和用户确认后改 JSON；能从资料里核实的可以补，拿不准的问用户，不要编造。
+3. 「转换说明」是自动处理的结果，例如自动生成的图谱地址、编号，需要时告诉用户。
+4. 改到校验通过后，照常推送预览、投稿。
+
+用户也可以不经过你，直接把填好的 Word 文件上传到 https://weiwuming.cn/graph/submit ，网站会自动转换。
 
 ## 交付前自查
 

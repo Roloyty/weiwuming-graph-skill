@@ -5,6 +5,7 @@
  *   node wwm-graph.mjs login                 发起连接：打印授权链接与核对码
  *   node wwm-graph.mjs login --wait          等待用户在网页上批准（可重复运行）
  *   node wwm-graph.mjs whoami                查看当前连接的账号
+ *   node wwm-graph.mjs from-word <file.docx> 把填好的 Word 模板转成图谱包并校验（-o 指定输出文件）
  *   node wwm-graph.mjs validate <file>       校验图谱包（无需登录）
  *   node wwm-graph.mjs push <file> [--write] 推送为草稿并给出预览链接（同一 slug 覆盖同一草稿）
  *   node wwm-graph.mjs submit <草稿ID>       把草稿提交审核（务必先征得用户同意）
@@ -33,10 +34,12 @@ function parseArgs(argv) {
   const args = { _: [] };
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
-    if (arg.startsWith('--')) {
-      const key = arg.slice(2);
+    // --name 与单字母 -o 都视为选项
+    const option = /^--(.+)$/.exec(arg) || /^-([a-zA-Z])$/.exec(arg);
+    if (option) {
+      const key = option[1];
       const next = argv[i + 1];
-      if (next !== undefined && !next.startsWith('--')) {
+      if (next !== undefined && !next.startsWith('-')) {
         args[key] = next;
         i++;
       } else args[key] = true;
@@ -312,6 +315,29 @@ const commands = {
     unauthorized(result);
     if (!result.ok) fail(result.error?.message || `查询失败（${result.status}）`);
     console.log(`已连接：${result.data.username} · 工具：${result.data.clientName} · 有效期至 ${String(result.data.expiresAt).slice(0, 10)}`);
+  },
+
+  async 'from-word'() {
+    const file = args._[1];
+    if (!file || !/.docx$/i.test(file)) fail('请给出填好的 Word 模板（.docx）路径');
+    if (!existsSync(file)) fail(`找不到文件 ${file}`);
+    if (statSync(file).size > 5 * 1024 * 1024) fail('Word 文件不能超过 5MB');
+    const converted = await request('POST', '/graph-submissions/convert-docx', { body: { file: readFileSync(file).toString('base64') } });
+    if (!converted.ok) fail(converted.error?.message || `转换失败（${converted.status}）`);
+    const { package: pkg, issues, notes } = converted.data;
+    const out = String(args.o || args.out || file.replace(/.docx$/i, '.graph.json'));
+    writeFileSync(out, `${JSON.stringify(pkg, null, 2)}
+`);
+    console.log(`已转换：${pkg.nodes.length} 位人物 · ${pkg.relations.length} 条关系 · ${pkg.events.length} 个事件 → ${out}`);
+    printIssues('转换说明', notes);
+    printIssues('Word 里需要修改的地方', issues);
+    const checked = await request('POST', '/graph-submissions/validate', { body: pkg });
+    if (checked.data) {
+      console.log(checked.data.ok ? '✓ 校验通过' : `✗ 校验还有 ${checked.data.errors.length} 处错误`);
+      printIssues('错误', checked.data.errors);
+      printIssues('提示', checked.data.warnings);
+    }
+    if (issues.length || !checked.data?.ok) exitWith(1);
   },
 
   async validate() {
