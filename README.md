@@ -74,6 +74,10 @@ AI 会按下面的流程走：
 - 令牌保存在本机 `~/.weiwuming/graph-agent.json`，30 天过期。可以随时在 [weiwuming.cn/graph/submit](https://weiwuming.cn/graph/submit) 的「已连接的 AI 工具」里撤销，或运行 `logout`。
 - 推送的草稿只有你本人登录后能看到；投稿须经站方审核才会公开。
 
+## 许可协议
+
+本仓库的代码与文档以 [MIT 协议](LICENSE) 开源：可以自由使用、修改和再分发，保留版权声明即可。
+
 ## 反馈
 
 问题与建议请提 [Issue](https://github.com/Roloyty/weiwuming-graph-skill/issues)。本仓库的 `skills/weiwuming-graph` 与网站 [weiwuming.cn/graph-kit](https://weiwuming.cn/graph-kit/SKILL.md) 上的工具包保持同步。
